@@ -1,3 +1,38 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 
-# Create your views here.
+from shop.models import Category, Product
+
+
+class ProductListView(TemplateView):
+    template_name = 'shop/product/list.html'
+
+    def get_context_data(self, **kwargs):
+        category = None
+        categories = Category.objects.all()
+        products = Product.objects.all()
+        category_slug = kwargs.get('category_slug')
+        if category_slug:
+            category = get_object_or_404(Category, slug=category_slug)
+            products = products.filter(category=category)
+        kwargs.update({
+            'category': category,
+            'categories': categories,
+            'products': products
+        })
+
+        return kwargs
+
+
+class ProductDetailView(TemplateView):
+    template_name = 'shop/product/detail.html'
+
+    def get_context_data(self, **kwargs):
+        id = kwargs.get('id')
+        slug = kwargs.get('slug')
+        product = get_object_or_404(Product, id=id, slug=slug, available=True)
+        kwargs.update({
+            'product': product
+        })
+
+        return kwargs
