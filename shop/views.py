@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from cart.forms import CartAddProductForm
 
 from shop.models import Category, Product
 
@@ -31,8 +32,10 @@ class ProductDetailView(TemplateView):
         id = kwargs.get('id')
         slug = kwargs.get('slug')
         product = get_object_or_404(Product, id=id, slug=slug, available=True)
+        cart_product_form = CartAddProductForm()
         kwargs.update({
-            'product': product
+            'product': product,
+            'cart_product_form': cart_product_form
         })
 
         return kwargs

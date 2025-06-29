@@ -328,3 +328,15 @@ form div.field {
     color:#666;
     border-radius:4px;
 }
+
+/* updates */
+
+input[type="submit"] {
+    cursor:pointer;
+}
+
+.cart-form {
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
