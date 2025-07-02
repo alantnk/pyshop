@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -10,6 +11,7 @@ class Order(models.Model):
     city = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    stripe_id = models.CharField(max_length=250, blank=True)
     paid = models.BooleanField(default=False)
 
     class Meta:
@@ -23,6 +25,18 @@ class Order(models.Model):
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
+
+    def get_stripe_url(self):
+        if not self.stripe_id:
+            # no payment associated
+            return ''
+        if '_test_' in settings.STRIPE_SECRET_KEY:
+            # Stripe path for test payments
+            path = '/test/'
+        else:
+            # Stripe path for real payments
+            path = '/'
+        return f'https://dashboard.stripe.com{path}payments/{self.stripe_id}'
 
 
 class OrderItem(models.Model):
