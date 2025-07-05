@@ -335,7 +335,7 @@ input[type="submit"] {
     cursor:pointer;
 }
 
-.cart-form {
+.cart-form, .coupon-form {
     display:flex;
     gap:10px;
     align-items:center;

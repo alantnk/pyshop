@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import View, TemplateView
 
+from coupons.forms import CouponApplyForm
 from shop.models import Product
 from .cart import Cart
 from .forms import CartAddProductForm
@@ -41,5 +42,6 @@ class CartDetailView(TemplateView):
             item['update_quantity_form'] = CartAddProductForm(
                 initial={'quantity': item['quantity'], 'override': True}
             )
-        kwargs.update({'cart': cart})
+        coupon_apply_form = CouponApplyForm()
+        kwargs.update({'cart': cart, 'coupon_apply_form': coupon_apply_form})
         return kwargs
