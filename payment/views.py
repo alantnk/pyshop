@@ -30,6 +30,7 @@ def payment_process(request):
         cancel_url = request.build_absolute_uri(
             reverse('payment:canceled')
         )
+
         # Stripe checkout session data
         session_data = {
             'mode': 'payment',
@@ -38,6 +39,7 @@ def payment_process(request):
             'cancel_url': cancel_url,
             'line_items': []
         }
+
         # add order items to the Stripe checkout session
         for item in order.items.all():
             session_data['line_items'].append(
@@ -52,8 +54,19 @@ def payment_process(request):
                     'quantity': item.quantity,
                 }
             )
+
+        # Stripe coupon
+        if order.coupon:
+            stripe_coupon = stripe.Coupon.create(
+                name=order.coupon.code,
+                percent_off=order.discount,
+                duration='once'
+            )
+            session_data['discounts'] = [{'coupon': stripe_coupon.id}]
+
         # create Stripe checkout session
         session = stripe.checkout.Session.create(**session_data)
+
         # redirect to Stripe payment form
         return redirect(session.url, code=303)
     else:
