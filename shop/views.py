@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
-from cart.forms import CartAddProductForm
 
+from cart.forms import CartAddProductForm
 from shop.models import Category, Product
+from shop.recommender import Recommender
 
 
 class ProductListView(TemplateView):
@@ -33,9 +34,12 @@ class ProductDetailView(TemplateView):
         slug = kwargs.get('slug')
         product = get_object_or_404(Product, id=id, slug=slug, available=True)
         cart_product_form = CartAddProductForm()
+        r = Recommender()
+        recommended_products = r.suggest_products_for([product], 4)
         kwargs.update({
             'product': product,
-            'cart_product_form': cart_product_form
+            'cart_product_form': cart_product_form,
+            'recommended_products': recommended_products
         })
 
         return kwargs
