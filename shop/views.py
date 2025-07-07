@@ -12,7 +12,7 @@ class ProductListView(TemplateView):
     def get_context_data(self, **kwargs):
         category = None
         categories = Category.objects.all()
-        products = Product.objects.all()
+        products = Product.objects.filter(available=True)
         category_slug = kwargs.get('category_slug')
         if category_slug:
             category = get_object_or_404(Category, slug=category_slug)
