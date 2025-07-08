@@ -1,5 +1,8 @@
 # Django E-Commerce Project
 
+## Demo
+[![YouTube Video kJ6BMQCWCOg](https://utfs.io/f/nGnSqDveMsqxOUdLxp0k5fKEn2LbBoPAuZ6XMTHDcNJ0QiG1)](https://www.youtube.com/watch?v=ZKt5pkfC6Yw)
+
 ## Setup
 
 ### RabbitMQ (Docker) 
@@ -31,6 +34,5 @@
 1. celery -A config flower --basic-auth=username:password
 2. **127.0.0.1:5555** Celery Interface
 
-## Demo
-[![](https://markdown-videos-api.jorgenkh.no/youtube/ZKt5pkfC6Yw)](https://youtu.be/ZKt5pkfC6Yw)
+
 
