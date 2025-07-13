@@ -15,7 +15,12 @@ class ProductListView(TemplateView):
         products = Product.objects.filter(available=True)
         category_slug = kwargs.get('category_slug')
         if category_slug:
-            category = get_object_or_404(Category, slug=category_slug)
+            lang = self.request.LANGUAGE_CODE
+            category = get_object_or_404(
+                Category,
+                translations__language_code=lang,
+                translations__slug=category_slug
+            )
             products = products.filter(category=category)
         kwargs.update({
             'category': category,
@@ -32,7 +37,13 @@ class ProductDetailView(TemplateView):
     def get_context_data(self, **kwargs):
         id = kwargs.get('id')
         slug = kwargs.get('slug')
-        product = get_object_or_404(Product, id=id, slug=slug, available=True)
+        lang = self.request.LANGUAGE_CODE
+        product = get_object_or_404(
+            Product,
+            id=id,
+            translations__language_code=lang,
+            translations__slug=slug, available=True
+        )
         cart_product_form = CartAddProductForm()
         r = Recommender()
         recommended_products = r.suggest_products_for([product], 4)
