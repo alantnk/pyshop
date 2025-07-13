@@ -1,5 +1,5 @@
 {% extends "shop/base.html" %}
-{% load static %}
+{% load i18n static %}
 {% block title %}Pay your order{% endblock %}
 {% block content %}
 <h1>Order summary</h1>
@@ -54,7 +54,7 @@
     </tbody>
 </table>
 <form action="{% url 'payment:process' %}" method="post">
-    <input type="submit" value="Pay now">
+    <input type="submit" value="{% translate 'Pay now' %}">
     {% csrf_token %}
 </form>
 {% endblock %}

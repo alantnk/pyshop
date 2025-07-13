@@ -28,6 +28,7 @@
 ## Servers
 
 - **127.0.0.1:8000** Django Site
+- **127.0.0.1:8000/rosetta** Translations Admin Panel
 - **127.0.0.1:15672** RabbitMQ Interface
 
 ## Celery UI (OPTIONAL)
